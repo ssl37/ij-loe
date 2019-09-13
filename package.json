@@ -2,7 +2,7 @@
   "name": "ij-loe",
   "description": "An app to build bilingual flash cards for a game like spot-itm",
   "version": "1.0.0",
-  "license": "Apache-2.0",
+  "license": "MIT License",
   "author": "Steven Scott Lutz",
   "engines": {
     "node": ">=8"
@@ -22,13 +22,35 @@
       }
     }
   },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "scripts": {
     "start": "node app.js",
     "e2e": "repo-tools test deploy",
     "test": "repo-tools test app",
-    "cover": "nyc --cache npm test; nyc report --reporter=html"
+    "cover": "nyc --cache npm test; nyc report --reporter=html",
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject"
   },
   "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "3.1.1",
     "d3-cloud": "^1.2.5",
     "express": "^4.16.4",
     "uuid": "^3.3.2"
