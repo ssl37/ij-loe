@@ -3,20 +3,25 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+  /*animation: App-logo-spin infinite 20s linear;*/
+  height: 8vmin;
   pointer-events: none;
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 5vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.tight-header{
+  margin-block-end: 1vh;
+  margin-block-start: 1vh;
 }
 
 .App-link {
@@ -29,5 +34,88 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+
+.ilControl {
+  min-height: 30vh;
+  padding: 2vh;
+  background-color: #ddd;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.wordlist-panel {
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+textarea.wordlist-area {
+  flex: 1;
+  align-self: stretch;
+}
+
+.settings-panel {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.ilPage {
+  min-height: 65vh;
+  background-color: #eee;
+}
+
+.il-card {
+  stroke: #111;
+  stroke-width: 1px;
+  fill-opacity: 0.4;
+  fill: #ff3333;
+}
+
+.il-card text {
+  fill: #000;
+  font-family: "Verdana", sans-serif;
+}
+
+.red-fill {
+  fill: #ff3333;
+}
+
+.blue-fill {
+  fill: #3333ff;
+}
+
+/*.card-container {*/
+  /*flex-direction: row;*/
+  /*align-items: stretch;*/
+  /*justify-content: space-between;*/
+/*}*/
+
+@media print {
+  .App-header {
+    display: none;
+  }
+
+  .ilControl {
+    display: none;
+  }
+
+  .ilPage {
+    background-color: #fff;
+  }
+
+  .il-card {
+    stroke: #444;
+    stroke-width: 2px;
+    fill: #fff;
   }
 }
