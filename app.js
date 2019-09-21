@@ -20,9 +20,9 @@ const app = express();
 
 // [START hello_world]
 // Say hello!
-app.get('/', (req, res) => {
-  res.status(200).send(`Hello, ${uuid()}!`);
-});
+//app.get('/', (req, res) => {
+//  res.status(200).send(`Hello, ${uuid()}!`);
+//});
 // [END hello_world]
 
 if (module === require.main) {
