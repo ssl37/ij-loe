@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from "react-dom";
+
 //import Flexbox from 'react-svg-flexbox';
 //import logo from './logo.svg';
 //import './App.css';
@@ -7,56 +7,72 @@ import sevenses from './7array';
 
 
 function Card(props) {
+    // let hcPos = [
+    //     ["25", "175", "20", "start"],
+    //     ["55", "75", "40", "start"],
+    //     ["90", "315", "-40", "start"],
+    //     ["170", "25", "80", "start"],
+    //     ["175", "175", "0", "middle"],
+    //     ["300", "80", "-40", "end"],
+    //     ["275", "285", "40", "end"],
+    //     ["285", "175", "90", "middle"],
+    // ];
+    let hcPos = [
+        ["175", "50", "0", "middle"],
+        ["45", "90", "0", "start"],
+        ["315", "130", "0", "end"],
+        ["15", "170", "0", "start"],
+        ["175", "210", "0", "middle"],
+        ["325", "250", "0", "end"],
+        ["45", "290", "0", "start"],
+        ["175", "330", "0", "middle"],
+    ];
+
+    let wordDivs = props.words.map((wordPairs, idx) => {
+        let p = hcPos[idx];
+        let thisword = wordPairs[props.lado()].trim();
+        if(thisword.match(' ')) {
+            thisword = thisword.split(' ').map((subword, swidx) => {
+                return (
+                    <tspan key={swidx} x={p[0]} dy={swidx===0 ? "-.5em" : "1em"}>{subword}</tspan>
+                );
+            })
+        }
+        return (
+            <text key={idx} fontSize="30"
+                  x={p[0]} y={p[1]}
+                  textAnchor={p[3]}
+                  transform={`rotate(${p[2]}, ${p[0]}, ${p[1]})`}>
+                {thisword}
+            </text>
+        );
+    });
     //let shift = `translate(${props.pos.x} ${props.pos.y})`;
     return (
-        <svg x={props.pos.x+'in'} y={props.pos.y+'in'}>
-        <g>
-            <circle className="il-card" cx="1.75in" cy="1.75in" r="1.75in" />
-            <text fontSize="45" x="1.75in" y="1.75in">
-                {(props.words[0] ? props.words[0][0] : 'Nope')}
-            </text>
-        </g>
+        <svg className={(props.breakafter ? "break-after" : "")}
+             x={props.pos.x} y={props.pos.y}
+             width="45" height="45" viewBox={'0 0 350 350'}>
+            <g>
+
+                <circle className={"il-card "+(props.lado() === 1 ? "red-fill" : "blue-fill")}
+                        cx="175" cy="175" r="175" />
+                {wordDivs}
+
+            </g>
         </svg>
     )
 }
 
+
+
 export class IlPage extends React.Component {
-    state = {
-        contentWidth: 500,
-        contentHeight: 20000,
-    };
 
-    measureElement = (element) => {
-        const DOMNode = ReactDOM.findDOMNode(element);
-        return {
-            contentWidth: DOMNode.clientWidth,
-            contentHeight: DOMNode.clientHeight,
-        };
-    };
-
-
-    // Let's suppose <CardContent /> will not change in size so
-    // we don't have to be aware of its possible changes
-    componentDidMount() {
-        this.content && this.setState( this.measureElement(this.content) );
-        console.log('calling did mount', this.state, this.content);
-    }
-
-    // render() {
-    //     return(
-    //         <div>
-    //             <CardContent  content={this.props.cardContent} />
-    //             {this.isThereRoomForImage() ? <BottomImage /> : null}
-    //         </div>
-    //     );
-    // };
-    //
-
-    calculateOffsets() {
+    constructor(props) {
+        super(props);
         let PAGE_MARGIN = 0;
-        let CARD_X_OFFSET = 2;
-        let CARD_Y_OFFSET = 3.25;
-        let PAGE_Y_OFFSET = 10.22;
+        let CARD_X_OFFSET = 27.5; //2;
+        let CARD_Y_OFFSET = 40; //3.25;
+        let PAGE_Y_OFFSET = 136.5; //10.22;
 
         this.getY = (idx) => {
             let cardspot = Math.floor( 2.0 * (idx % 5) / 3 );
@@ -69,22 +85,22 @@ export class IlPage extends React.Component {
     }
 
     render() {
-        console.log('calling render');
-        this.calculateOffsets();
         let wordPairs = this.props.wordlist.split('\n').map((strPair) => strPair.split(','));
         let cardGroups = sevenses.map((cardWords, cardIdx) => {
             return {
                 words: cardWords.map((idx) => wordPairs[idx]),
-                pos: {x: this.getX(cardIdx), y: this.getY(cardIdx)}
+                pos: {x: this.getX(cardIdx), y: this.getY(cardIdx)},
+                lado: this.props.ladoAlg(cardIdx),
+                breakafter: (cardIdx % 5 === 4)
             }
         });
         let groupCircles = cardGroups.map((card,idx) => {
-            return <Card key={idx} words={card.words} pos={card.pos} />;
+            return <Card key={idx} breakafter={card.breakafter} words={card.words} pos={card.pos} lado={card.lado}/>;
         });
 
         return (
             <div className="ilPage">
-                <svg ref={(r) => {console.log('in the ref', r); this.content = r}} height='123in' width='7.5in'>
+                <svg className="page-holder" viewBox={'0 0 100 1600'}>
                     {groupCircles}
                 </svg>
             </div>

@@ -74,6 +74,11 @@ textarea.wordlist-area {
   background-color: #eee;
 }
 
+.page-holder {
+  height: 1520vw;
+  width: 95vw;
+}
+
 .il-card {
   stroke: #111;
   stroke-width: 1px;
@@ -94,12 +99,6 @@ textarea.wordlist-area {
   fill: #3333ff;
 }
 
-/*.card-container {*/
-  /*flex-direction: row;*/
-  /*align-items: stretch;*/
-  /*justify-content: space-between;*/
-/*}*/
-
 @media print {
   .App-header {
     display: none;
@@ -111,6 +110,15 @@ textarea.wordlist-area {
 
   .ilPage {
     background-color: #fff;
+  }
+
+  .page-holder {
+    height: 120in;
+    width: 7.5in;
+  }
+
+  .break-after {
+    page-break-after: always;
   }
 
   .il-card {

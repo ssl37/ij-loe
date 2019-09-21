@@ -16,17 +16,57 @@ function Wordlist(props) {
     )
 }
 
-function SettingsOptions() {
-    return <div>The Setting Options</div>
+function AlgOption(props) {
+    let myValue = props.label.split(' ')[0];
+    return (
+        <div className="radio">
+            <label>
+                <input type="radio" value={myValue} checked={props.alg === myValue} onChange={props.updateAlg} />
+                { props.label }
+            </label>
+        </div>
+    );
 }
 
-function Settings() {
+class SettingsOptions extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {selectedAlg: "Separated"};
+        this.handleAlg = this.handleAlg.bind(this);
+    }
+
+    handleAlg(evt) {
+        this.setState({selectedAlg: evt.target.value});
+        this.props.update({algorithm: evt.target.value});
+    }
+
+    render() {
+        return (
+            <div>
+                <AlgOption label={'Random (Mixed language words on each card )'}
+                           alg={this.state.selectedAlg}
+                           updateAlg={this.handleAlg}
+                />
+                <AlgOption label={'Separated ( All language 1 cards, then all language 2 cards (Best for printing) )'}
+                           alg={this.state.selectedAlg}
+                           updateAlg={this.handleAlg}
+                />
+                <AlgOption label={'Alternate ( Interlace language 1 and language 2 cards )'}
+                           alg={this.state.selectedAlg}
+                           updateAlg={this.handleAlg}
+                />
+            </div>
+        )
+    }
+}
+
+function Settings(props) {
     return (
         <div className="settings-panel">
         <div className="panel-header">
             <h2 className="tight-header">Settings</h2>
         </div>
-            <SettingsOptions />
+            <SettingsOptions update={props.updateSettings}/>
         </div>
     )
 }
@@ -36,7 +76,7 @@ export function IlControl(props) {
     return (
         <div className="ilControl">
             <Wordlist updateWordlist={props.updateWordlist} wordlist={props.wordlist} />
-            <Settings />
+            <Settings updateSettings={props.updateSettings}/>
         </div>
     );
 }
