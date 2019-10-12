@@ -75,7 +75,7 @@ textarea.wordlist-area {
 }
 
 .page-holder {
-  height: 1520vw;
+  height: 1510vw;
   width: 95vw;
 }
 
@@ -113,8 +113,9 @@ textarea.wordlist-area {
   }
 
   .page-holder {
-    height: 120in;
+    height: 122.3in;
     width: 7.5in;
+    stroke: 1px black;
   }
 
   .break-after {

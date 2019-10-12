@@ -75,11 +75,15 @@ export class IlPage extends React.Component {
         let PAGE_Y_OFFSET = 136.5; //10.22;
 
         this.getY = (idx) => {
-            let cardspot = Math.floor( 2.0 * (idx % 5) / 3 );
-            return PAGE_MARGIN + (CARD_Y_OFFSET * cardspot) + (PAGE_Y_OFFSET * Math.floor(idx / 5));
+            let sepPageBreak = (idx > 27 ? 2 : 0);
+            let cardspot = Math.floor( 2.0 * ((idx + sepPageBreak) % 5) / 3 );
+            return PAGE_MARGIN
+                + (CARD_Y_OFFSET * cardspot)
+                + (PAGE_Y_OFFSET * Math.floor((idx + sepPageBreak) / 5));
         };
         this.getX = (idx) => {
-            let cardspot = ( 2 * (idx % 5) ) % 3;
+            let sepPageBreak = (idx > 27 ? 2 : 0);
+            let cardspot = ( 2 * ((idx + sepPageBreak) % 5) ) % 3;
             return (PAGE_MARGIN + CARD_X_OFFSET * cardspot);
         };
     }
@@ -100,7 +104,7 @@ export class IlPage extends React.Component {
 
         return (
             <div className="ilPage">
-                <svg className="page-holder" viewBox={'0 0 100 1600'}>
+                <svg className="page-holder" viewBox={'0 0 100 1627'}>
                     {groupCircles}
                 </svg>
             </div>
