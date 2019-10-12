@@ -69,6 +69,17 @@ textarea.wordlist-area {
   justify-content: flex-start;
 }
 
+.play-button {
+    background: rgba(25,65,235,0.9);
+    margin: 9px;
+    width: fit-content;
+    right: 0px;
+    padding: 8px 20px;
+    position: absolute;
+    color: white;
+    cursor: pointer;
+}
+
 .ilPage {
   min-height: 65vh;
   background-color: #eee;
@@ -100,11 +111,7 @@ textarea.wordlist-area {
 }
 
 @media print {
-  .App-header {
-    display: none;
-  }
-
-  .ilControl {
+  .ilControl, .play-button, .App-header {
     display: none;
   }
 

@@ -69,6 +69,8 @@ export class IlPage extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = ({top1: 0, top2: 1, sevenses: sevenses});
+        this.needsReshuffling = false;
         let PAGE_MARGIN = 0;
         let CARD_X_OFFSET = 27.5; //2;
         let CARD_Y_OFFSET = 40; //3.25;
@@ -86,11 +88,26 @@ export class IlPage extends React.Component {
             let cardspot = ( 2 * ((idx + sepPageBreak) % 5) ) % 3;
             return (PAGE_MARGIN + CARD_X_OFFSET * cardspot);
         };
+
+        this.shuffle = () => {
+            this.needsReshuffling = true;
+            this.setState({top1: Math.random()*58, top2: Math.random()*58});
+        };
+
+        this.bringToTop = () => {
+            this.needsReshuffling = false;
+            let newSevenses = this.state.sevenses;
+            let new2 = newSevenses.splice(this.state.top2,1);
+            let new1 = newSevenses.splice(this.state.top1,1);
+            newSevenses.shift([new1, new2]);
+            this.setState({sevenses: newSevenses});
+        };
     }
 
     render() {
         let wordPairs = this.props.wordlist.split('\n').map((strPair) => strPair.split(','));
-        let cardGroups = sevenses.map((cardWords, cardIdx) => {
+        if(this.needsReshuffling) this.bringToTop();
+        let cardGroups = this.state.sevenses.map((cardWords, cardIdx) => {
             return {
                 words: cardWords.map((idx) => wordPairs[idx]),
                 pos: {x: this.getX(cardIdx), y: this.getY(cardIdx)},
@@ -104,6 +121,7 @@ export class IlPage extends React.Component {
 
         return (
             <div className="ilPage">
+                <div className="play-button" onClick={this.shuffle}>Play</div>
                 <svg className="page-holder" viewBox={'0 0 100 1627'}>
                     {groupCircles}
                 </svg>
