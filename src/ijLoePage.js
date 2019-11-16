@@ -97,11 +97,12 @@ export class IlPage extends React.Component {
         };
 
         this.shuffle = () => {
-            let top1 = Math.random()*58, top2 = Math.random()*58;
+            let top1 = Math.floor(Math.random()*57), top2 = Math.floor(Math.random()*56);
             let newSevenses = this.state.sevenses;
-            let new2 = newSevenses.splice(top2,1);
-            let new1 = newSevenses.splice(top1,1);
-            newSevenses.shift([new1, new2]);
+            let new1 = newSevenses.splice(top1,1)[0];
+            let new2 = newSevenses.splice(top2,1)[0];
+            newSevenses.unshift(new1, new2);
+            console.log('we shuffled, and now have',newSevenses.length,'cards were',top1,top2);
             this.setState({sevenses: newSevenses, word1: null, word2: null, matchFound: null});
         };
 
