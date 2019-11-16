@@ -38,8 +38,16 @@ function Card(props) {
                 );
             })
         }
+
+        let highlightMe = (evt) => {
+            console.log('Someone clicked',evt.target);
+            props.highlight(idx, evt)
+        };
+
         return (
             <text key={idx} fontSize="30"
+                  className={props.highlightWord === idx ? 'highlighted' : ''}
+                  onClick={highlightMe}
                   x={p[0]} y={p[1]}
                   textAnchor={p[3]}
                   transform={`rotate(${p[2]}, ${p[0]}, ${p[1]})`}>
@@ -49,7 +57,7 @@ function Card(props) {
     });
     //let shift = `translate(${props.pos.x} ${props.pos.y})`;
     return (
-        <svg className={(props.breakafter ? "break-after" : "")}
+        <svg className={(props.breakafter ? "break-after " : "") + (props.matching ? props.matching : "")}
              x={props.pos.x} y={props.pos.y}
              width="45" height="45" viewBox={'0 0 350 350'}>
             <g>
@@ -69,8 +77,7 @@ export class IlPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = ({top1: 0, top2: 1, sevenses: sevenses});
-        this.needsReshuffling = false;
+        this.state = ({sevenses: sevenses, word1: null, word2: null, matchFound: null});
         let PAGE_MARGIN = 0;
         let CARD_X_OFFSET = 27.5; //2;
         let CARD_Y_OFFSET = 40; //3.25;
@@ -90,33 +97,65 @@ export class IlPage extends React.Component {
         };
 
         this.shuffle = () => {
-            this.needsReshuffling = true;
-            this.setState({top1: Math.random()*58, top2: Math.random()*58});
+            let top1 = Math.random()*58, top2 = Math.random()*58;
+            let newSevenses = this.state.sevenses;
+            let new2 = newSevenses.splice(top2,1);
+            let new1 = newSevenses.splice(top1,1);
+            newSevenses.shift([new1, new2]);
+            this.setState({sevenses: newSevenses, word1: null, word2: null, matchFound: null});
         };
 
-        this.bringToTop = () => {
-            this.needsReshuffling = false;
-            let newSevenses = this.state.sevenses;
-            let new2 = newSevenses.splice(this.state.top2,1);
-            let new1 = newSevenses.splice(this.state.top1,1);
-            newSevenses.shift([new1, new2]);
-            this.setState({sevenses: newSevenses});
-        };
+        this.highlightWord = (wordIdx, cardIdx, sevenIdx) => {
+            if(!this.state.word1) {
+                this.setState({word1: [cardIdx, wordIdx, sevenIdx]});
+            } else if (!this.state.word2) {
+                let tmpMF = (sevenIdx === this.state.word1[2] ? 'good-match' : 'bad-match');
+                console.log('we had ',sevenIdx,this.state.word1[2], tmpMF);
+                this.setState({word2: [cardIdx, wordIdx, sevenIdx], matchFound: tmpMF});
+                setTimeout(()=> {
+                    console.log('Clear!');
+                    if(this.state.matchFound === 'good-match') {
+                        this.shuffle()
+                    } else {
+                        this.setState({word1: null, word2: null, matchFound: null})
+                    }
+                },1200)
+            }
+        }
     }
 
     render() {
         let wordPairs = this.props.wordlist.split('\n').map((strPair) => strPair.split(','));
-        if(this.needsReshuffling) this.bringToTop();
+/*        if(this.needsReshuffling) this.bringToTop(); */
         let cardGroups = this.state.sevenses.map((cardWords, cardIdx) => {
             return {
                 words: cardWords.map((idx) => wordPairs[idx]),
+                sevenIdx: cardWords,
                 pos: {x: this.getX(cardIdx), y: this.getY(cardIdx)},
                 lado: this.props.ladoAlg(cardIdx),
                 breakafter: (cardIdx % 5 === 4)
             }
         });
         let groupCircles = cardGroups.map((card,idx) => {
-            return <Card key={idx} breakafter={card.breakafter} words={card.words} pos={card.pos} lado={card.lado}/>;
+            let highlightOnCard = (wordIdx, evt) => {
+                console.log('a card had a click of', evt.target, card);
+                this.highlightWord(wordIdx,idx,card.sevenIdx[wordIdx])
+            };
+            let highlightWord = 9;
+            let matchFound = null;
+            if(this.state.word1 && this.state.word1[0] === idx) {
+                highlightWord = this.state.word1[1];
+                if(this.state.matchFound) matchFound = this.state.matchFound;
+            }
+            if(this.state.word2 && this.state.word2[0] === idx) {
+                highlightWord = this.state.word2[1];
+                if(this.state.matchFound) matchFound = this.state.matchFound;
+            }
+            return <Card key={idx} breakafter={card.breakafter}
+                         matching={matchFound ? matchFound : null}
+                         words={card.words} pos={card.pos}
+                         highlight={highlightOnCard} highlightWord={highlightWord}
+                         lado={card.lado}/>;
         });
 
         return (

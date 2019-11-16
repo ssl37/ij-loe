@@ -108,7 +108,7 @@ textarea.wordlist-area {
 .il-card {
   stroke: #111;
   stroke-width: 1px;
-  fill-opacity: 0.4;
+  fill-opacity: 0.2;
   fill: #ff3333;
 }
 
@@ -123,6 +123,22 @@ textarea.wordlist-area {
 
 .blue-fill {
   fill: #3333ff;
+}
+
+text.highlighted {
+  text-shadow: 10px 1px 20px yellow;
+}
+
+svg.good-match text.highlighted {
+  text-shadow: 10px 1px 20px limegreen;
+}
+
+svg.bad-match text.highlighted {
+  text-shadow: 10px 1px 20px orangered;
+}
+
+text {
+  cursor:pointer;
 }
 
 @media print {
