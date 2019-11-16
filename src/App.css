@@ -62,18 +62,33 @@ textarea.wordlist-area {
 }
 
 .settings-panel {
-  flex-grow: 1;
+  flex-grow: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
 }
 
+.settings-options label {
+  text-align: left;
+}
+
+.about-panel {
+  overflow-y: scroll;
+  max-height: 200px;
+  max-width: 50vw;
+}
+
+.about-panel > div {
+  text-align: justify;
+  padding: 16px;
+}
+
 .play-button {
     background: rgba(25,65,235,0.9);
     margin: 9px;
     width: fit-content;
-    right: 0px;
+    right: 0;
     padding: 8px 20px;
     position: absolute;
     color: white;

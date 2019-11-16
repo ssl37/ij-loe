@@ -11,14 +11,14 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.ladoAlgLookup = {
-            "Random": () => { return () => (Math.floor(Math.random() * 2)); },
-            "Separated": (idx) => { return () => (idx < 28 ? 0 : 1); },
-            "Alternate": (idx) => { return () => (idx % 2); }
+            "Randomized": () => { return () => (Math.floor(Math.random() * 2)); },
+            "Printed": (idx) => { return () => (idx < 28 ? 0 : 1); },
+            "Online": (idx) => { return () => (idx % 2); }
         };
 
         this.state = {
             wordlist: initialWordlist.join('\n'),
-            ladoAlg: this.ladoAlgLookup["Separated"]
+            ladoAlg: this.ladoAlgLookup["Printed"]
         };
         this.updateWordlist = this.updateWordlist.bind(this);
         this.updateSettings= this.updateSettings.bind(this);
