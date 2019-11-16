@@ -40,7 +40,6 @@ function Card(props) {
         }
 
         let highlightMe = (evt) => {
-            console.log('Someone clicked',evt.target);
             props.highlight(idx, evt)
         };
 
@@ -102,7 +101,6 @@ export class IlPage extends React.Component {
             let new1 = newSevenses.splice(top1,1)[0];
             let new2 = newSevenses.splice(top2,1)[0];
             newSevenses.unshift(new1, new2);
-            console.log('we shuffled, and now have',newSevenses.length,'cards were',top1,top2);
             this.setState({sevenses: newSevenses, word1: null, word2: null, matchFound: null});
         };
 
@@ -111,10 +109,8 @@ export class IlPage extends React.Component {
                 this.setState({word1: [cardIdx, wordIdx, sevenIdx]});
             } else if (!this.state.word2) {
                 let tmpMF = (sevenIdx === this.state.word1[2] ? 'good-match' : 'bad-match');
-                console.log('we had ',sevenIdx,this.state.word1[2], tmpMF);
                 this.setState({word2: [cardIdx, wordIdx, sevenIdx], matchFound: tmpMF});
                 setTimeout(()=> {
-                    console.log('Clear!');
                     if(this.state.matchFound === 'good-match') {
                         this.shuffle()
                     } else {
@@ -139,7 +135,6 @@ export class IlPage extends React.Component {
         });
         let groupCircles = cardGroups.map((card,idx) => {
             let highlightOnCard = (wordIdx, evt) => {
-                console.log('a card had a click of', evt.target, card);
                 this.highlightWord(wordIdx,idx,card.sevenIdx[wordIdx])
             };
             let highlightWord = 9;
