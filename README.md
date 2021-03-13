@@ -1,46 +1,40 @@
-# 1 - Hello world
+# Ij-Loe
+
+This project was requested by a close friend who teaches high school Spanish. He
+wanted a way to create spot-it type cards with spanish and english words that
+students could use to drill their vocabulary. The page will be styled for printing,
+which was his original request. But to make it a little more interactive, the 
+online form includes a play functionality where entries from two separate cards
+can be clicked, and will turn green if the words match. There is exactly one match
+per pair of cards.
+
+Ij Loe is Marshallese for 'I see it'...
 
 ![Build Status][ci-badge]
 
-This folder contains the sample code for a small App Engine application that
-displays a short message. See the instructions below for how to configure, run,
-and deploy this sample.
+Originally this started from one of the google cloud platform tutorials. Credit
+to them for creating such helpful and informative guides.
 
-[ci-badge]: https://storage.googleapis.com/nodejs-getting-started-tests-badges/1-tests.svg
+# Deployment Instructions
 
-# Simple instructions
+1. Clone this project:
 
-1.  Install [Node.js](https://nodejs.org/en/).
-1.  Install [git](https://git-scm.com/).
-1.  Create a [Google Cloud Platform project](https://console.cloud.google.com).
-1.  Install the [Google Cloud SDK](https://cloud.google.com/sdk/).
-
-    * After downloading the SDK, initialize it:
-
-            gcloud init
-
-1.  Clone the repository:
-
-        git clone https://github.com/GoogleCloudPlatform/nodejs-getting-started.git
+        git clone git@github.com:ssl37/ij-loe.git
 
 1.  Change directory:
 
-        cd nodejs-getting-started/1-hello-world
+        cd ij-loe
 
 1.  Install dependencies:
 
         npm install
 
-1.  Start the app:
+1.  Build the app
 
-        npm start
-
-1.  View the app at [http://localhost:8080](http://localhost:8080).
-
-1.  Stop the app by pressing `Ctrl+C`.
+        npm run react-build
 
 1.  Deploy the app:
 
         gcloud app deploy
 
-1.  View the deployed app at [https://YOUR_PROJECT_ID.appspot.com](https://YOUR_PROJECT_ID.appspot.com).
+1.  View the deployed app at [https://ij-loe.appspot.com](https://ij-loe.appspot.com).
